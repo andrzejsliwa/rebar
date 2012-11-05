@@ -50,6 +50,10 @@ eqc(Config, _AppFile) ->
     ok = load_qc_mod(eqc),
     run_qc(Config, qc_opts(Config), eqc).
 
+proper(Config, _AppFile) ->
+    ?CONSOLE("NOTICE: Using experimental 'proper' command~n", []),
+    ok = load_qc_mod(proper),
+    run_qc(Config, qc_opts(Config), proper).
 %% ===================================================================
 %% Internal functions
 %% ===================================================================
@@ -156,7 +160,8 @@ qc_module(QC=triq, _QCOpts, M) ->
         Failed ->
             [Failed]
     end;
-qc_module(QC=eqc, QCOpts, M) -> QC:module(QCOpts, M).
+qc_module(QC=eqc, QCOpts, M) -> QC:module(QCOpts, M);
+qc_module(QC=proper, QCOpts, M) -> QC:module(M, QCOpts).
 
 find_prop_mods() ->
     Beams = rebar_utils:find_files(?QC_DIR, ".*\\.beam\$"),

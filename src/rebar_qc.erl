@@ -26,7 +26,7 @@
 %% -------------------------------------------------------------------
 -module(rebar_qc).
 
--export([qc/2, triq/2, eqc/2]).
+-export([qc/2, triq/2, eqc/2, proper/2]).
 
 -include("rebar.hrl").
 

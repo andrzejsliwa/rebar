@@ -60,6 +60,7 @@ proper(Config, _AppFile) ->
 
 -define(TRIQ_MOD, triq).
 -define(EQC_MOD, eqc).
+-define(PROPER_MOD, proper).
 
 qc_opts(Config) ->
     rebar_config:get(Config, qc_opts, []).
@@ -96,7 +97,12 @@ detect_qc_mod() ->
                 {module, ?EQC_MOD} ->
                     ?EQC_MOD;
                 {error, nofile} ->
-                    ?ABORT("No QC library available~n", [])
+                    case code:ensure_loaded(?PROPER_MOD) of
+                        {module, ?PROPER_MOD} ->
+                            ?PROPER_MOD;
+                        {error, nofile} ->
+                            ?ABORT("No QC library available~n", [])
+                    end
             end
     end.
 
